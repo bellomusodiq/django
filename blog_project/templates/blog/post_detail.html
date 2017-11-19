@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block body %}
+
+{% if object.published_date or request.user.is_staff %}
+<h3>{{object}}</h3>
+{% if object.published_date %}
+<p>{{object.published_date }}</p>
+{% else %}
+<p class="red-text">draft</p>
+{% endif %}
+<p>{{object.text|safe}}</p>
+
+{% if request.user.is_staff %}
+<a class="left btn  yellow darken-2" href="{% url 'edit' pk=object.pk %}" title="edit"><i class="fa fa-edit"></i></a>
+<a href="{% url 'delete' pk=object.pk %}" class="right btn  red" title="delete"><i class="fa fa-trash"></i></a>
+{% if not object.published_date %}
+<a href="{% url 'publish' pk=object.pk %}" class="btn  green " style="margin-left: 10px">publish</a>
+{% endif %}
+<br><br>{% endif %}
+<hr><br>
+<form method="POST" action="{% url 'comment' pk=object.pk %}">{% csrf_token %}
+<P style="padding-left: 10px" class="teal-text">Add comment</P>
+  <div class="row " >
+	<div class="primary_text input-field col l12 m12 s12">
+	{{ form1.author }}
+	<label for="{{ form.author.id_for_label }}" class="primary_text">name</label>
+</div>
+	<div class="primary_text input-field col l12 m12 s12">
+	{{ form1.text }}
+	<label for="{{ form.text.id_for_label }}" class="primary_text">Your comment</label>
+	<input type="submit" name="" class="btn  blue" value="submit"">
+	</div> 
+</div>
+</form>
+
+
+<p><strong>COMMENTS</strong></p>
+{% if request.user.is_staff %}
+<p class="red-text">PENDING COMMENTS</p>
+{% for comment in object.comments.all %}
+{% if comment.approve_comment is False %}
+<div class="card" style="padding: 5px">
+	<p class="blue-text">{{comment.author}}</p>
+	<p>{{comment}}</p>
+	<a href="{% url 'approve_comment' pk=comment.pk %}" class=" btn  green" title="Approve"><i class="fa fa-check"></i></a>
+	<a href="{% url 'delete_comment' pk=comment.pk %}" class="right btn  red" title="delete"><i class="fa fa-trash"></i></a>
+</div>
+{% endif %}
+{% endfor %}
+
+<p class="green-text">APPROVED COMMENTS</p>
+{% endif %}
+
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+        {{ message }}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+
+{% for comment in object.comments.all %}
+{% if comment.approve_comment %}
+<div class="card" style="padding: 5px">
+	<p class="blue-text">{{comment.author}}<small class="right">{{comment.timestamp}}</small></p>
+	<p>{{comment}}</p>
+</div>
+{% endif %}
+{% empty %}
+<p>No comments</p>
+{% endfor %}
+
+{% else %}
+<h3>error page</h3>
+
+{% endif %}
+
+{% endblock %}
+
+

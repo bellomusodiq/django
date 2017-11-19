@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<form method="POST">{% csrf_token %}
+	<div class="primary_text input-field col l12 m12 s12">
+		{{ form.title }}
+		<label for="{{ form.title.id_for_label }}" >title</label>
+	</div>
+
+	<div class="primary_text input-field col l12 m12 s12">
+	{{ form.text }}
+	<label for="{{ form.text.id_for_label }}" >text</label>
+</div>
+	<input type="submit" name="" class="btn blue" value="save">
+</form>
+
+{% endblock %}

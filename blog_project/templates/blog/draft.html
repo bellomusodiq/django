@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block body %}
+
+{% for obj in object_list %}
+<h5><a href="{% url 'post_detail' pk=obj.pk %}">{{obj}}</a><a href="{% url 'delete' pk=obj.pk %}" class="right red btn"><i class="fa-trash fa"></i></a></h5>
+<p>{{obj.text|truncatechars:120|safe}}</p>
+{%empty%}
+<p>There is no draft</p>
+{% endfor %}
+
+{% endblock %}

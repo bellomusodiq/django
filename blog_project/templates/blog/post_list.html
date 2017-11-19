@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block body %}
+
+{% for obj in object_list %}
+<h5><a href="{% url 'post_detail' pk=obj.pk %}">{{obj}}</a></h5>
+<p>{{obj.text|truncatechars:120|safe}}</p>
+{% endfor %}
+
+{% endblock %}

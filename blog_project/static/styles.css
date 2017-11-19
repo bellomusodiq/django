@@ -1,0 +1,30 @@
+span.test{
+	font-size: 18px;
+	font-style: bold;
+}
+.custom_form>input, .custom_form>button{
+	margin-top: 5px;
+}
+.name_form{
+	margin-left: 28px;
+}
+.custom_form>button{
+	margin-left: 175px;
+}
+.email{
+	margin-left: 2px;
+
+}
+.name{
+	margin-right: 24px;
+}
+.testing ul{
+	/*color: blue;*/
+	list-style-type: none;
+	padding-left: 70px;
+	color: #FF0800;}
+.week{
+	margin-top: 50%;
+	background: red!important;
+	color: green!important;
+}
